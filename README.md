@@ -12,7 +12,7 @@ In Claude Code:
 
 ```
 /plugin marketplace add siemens-mobile-hacks/skills
-/plugin install siemens@siemens-mobile-hacks
+/plugin install siepatch@siemens-mobile-hacks
 ```
 
 Update with `/plugin marketplace update siemens-mobile-hacks`.
