@@ -50,10 +50,10 @@ work=$(mktemp -d)
 pmb887x-emu -f FULLFLASH.bin --headless --qemu-monitor "unix:$work/monitor.sock,server,nowait"
 ```
 
-Wait about 60 s for the boot, then dump with `scripts/dump_memory.py` from this skill and stop the emulator:
+Wait about 60 s for the boot, then dump the memory and stop the emulator:
 
 ```sh
-scripts/dump_memory.py --monitor "$work/monitor.sock" --out DUMP_DIR --prefix EL71v45 \
+"${CLAUDE_PLUGIN_ROOT}/skills/ghidra-fullflash-setup/scripts/dump_memory.py" --monitor "$work/monitor.sock" --out DUMP_DIR --prefix EL71v45 \
 	TCM:00000000:00004000 SRAM:00080000:00018000 BROM:00400000:00008000 \
 	RAM:A8000000:01000000 VMALLOC:AC000000:01800000:virt
 ```

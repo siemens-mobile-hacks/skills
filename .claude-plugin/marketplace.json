@@ -1,0 +1,11 @@
+{
+	"name": "siemens-mobile-hacks",
+	"owner": { "name": "siemens-mobile-hacks" },
+	"plugins": [
+		{
+			"name": "siemens",
+			"source": "./",
+			"description": "Skills for Siemens phone hacking and reverse engineering"
+		}
+	]
+}
