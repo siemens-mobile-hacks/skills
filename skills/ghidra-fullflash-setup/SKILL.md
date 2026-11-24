@@ -13,8 +13,8 @@ Find the tools first:
 
 | Tool | Look for |
 |---|---|
-| Ghidra | `$GHIDRA_INSTALL_DIR/support/analyzeHeadless`, or `analyzeHeadless` on `PATH` |
-| ghidra_scripts | a directory with `SetupSiemensFullflash.java` |
+| Ghidra | Ghidra MCP tools; otherwise `$GHIDRA_INSTALL_DIR/support/analyzeHeadless` or `analyzeHeadless` on `PATH` |
+| ghidra_scripts | `SetupSiemensFullflash.java` in `list_scripts` (MCP) or a directory with it (headless) |
 | sie-tool, only for phone dumps | `sie-tool` on `PATH` |
 | pmb887x-emu, only for emulator dumps | `pmb887x-emu` on `PATH` |
 
@@ -62,7 +62,18 @@ Wait about 60 s for the boot, then dump the memory and stop the emulator:
 
 ## Setup
 
-Close the project in the Ghidra GUI, then run:
+### With Ghidra MCP
+
+Use it when Ghidra MCP tools are available:
+
+1. `list_scripts` with filter `SetupSiemensFullflash`. If the script is missing, ask the user to add the ghidra_scripts directory in Script Manager → Manage Script Directories.
+2. `import_file`: `file_path` = the fullflash, `loader` = `Raw Binary`, `language` = `ARM:LE:32:v5t`, `compiler` = `default`, `base_address` = `0xA0000000`.
+3. `run_script`: `name` = `SetupSiemensFullflash.java`, `program` = the imported program, `timeout_seconds` = `3600`, `args` with at least one argument, for example `["dumps=DUMP_DIR"]` or `["analyze=true"]`. Without arguments the script opens dialogs and waits for the user.
+4. `save_program`.
+
+### Headless
+
+Use it without Ghidra MCP. Close the project in the Ghidra GUI, then run:
 
 ```sh
 "$GHIDRA_INSTALL_DIR/support/analyzeHeadless" PROJECT_DIR PROJECT_NAME -import FULLFLASH.bin \
