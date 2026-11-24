@@ -4,7 +4,7 @@ Agent skills for Siemens phone hacking and reverse engineering.
 
 | Skill | Purpose |
 |---|---|
-| [ghidra-fullflash-setup](skills/ghidra-fullflash-setup/SKILL.md) | Set up a fullflash in Ghidra: memory map, partitions, RAM dumps, swilib types and symbols |
+| [ghidra-fullflash-setup](skills/ghidra-fullflash-setup/SKILL.md) | Set up a fullflash in Ghidra: memory map, RAM dumps from pmb887x-emu, swilib types and symbols |
 
 ## Install
 
