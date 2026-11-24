@@ -67,9 +67,10 @@ Wait about 60 s for the boot, then dump the memory and stop the emulator:
 Use it when Ghidra MCP tools are available:
 
 1. `list_scripts` with filter `SetupSiemensFullflash`. If the script is missing, ask the user to add the ghidra_scripts directory in Script Manager → Manage Script Directories.
-2. `import_file`: `file_path` = the fullflash, `loader` = `Raw Binary`, `language` = `ARM:LE:32:v5t`, `compiler` = `default`, `base_address` = `0xA0000000`.
-3. `run_script`: `name` = `SetupSiemensFullflash.java`, `program` = the imported program, `timeout_seconds` = `3600`, `args` with at least one argument, for example `["dumps=DUMP_DIR"]` or `["analyze=true"]`. Without arguments the script opens dialogs and waits for the user.
-4. `save_program`.
+2. `import_file`: `file_path` = the fullflash, `loader` = `Raw Binary`, `language` = `ARM:LE:32:v5t`, `compiler` = `default`, `base_address` = `0xA0000000`, `open` = `false`.
+3. `open_program` with `mode` = `tool`, so the user sees the program in a CodeBrowser; do not work on it in the background.
+4. `run_script`: `name` = `SetupSiemensFullflash.java`, `program` = the imported program, `timeout_seconds` = `3600`, `args` with at least one argument, for example `["dumps=DUMP_DIR"]` or `["analyze=true"]`. Without arguments the script opens dialogs and waits for the user.
+5. `save_program`.
 
 ### Headless
 
@@ -98,7 +99,7 @@ In the GUI the user runs the same script from the Script Manager; it asks for ev
 
 ## Check
 
-The log must show the chosen `Swilib target`, a `Partition` line per FFS/EEPROM partition, an `Imported` line per dump, and `Parsed N symbols!` twice.
+The log must show the chosen `Swilib target`, an `Imported` line per dump, and `Parsed N symbols!` twice.
 
 | Message | Fix |
 |---|---|
