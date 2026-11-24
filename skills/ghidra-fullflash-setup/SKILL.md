@@ -15,8 +15,8 @@ Find the tools first:
 |---|---|
 | Ghidra | Ghidra MCP tools; otherwise `$GHIDRA_INSTALL_DIR/support/analyzeHeadless` or `analyzeHeadless` on `PATH` |
 | ghidra_scripts | `SetupSiemensFullflash.java` in `list_scripts` (MCP) or a directory with it (headless) |
-| sie-tool, only for phone dumps | `sie-tool` on `PATH` |
-| pmb887x-emu, only for emulator dumps | `pmb887x-emu` on `PATH` |
+| pmb887x-emu, for emulator dumps | `pmb887x-emu` on `PATH` |
+| sie-tool, for phone dumps | `sie-tool` on `PATH` |
 
 If a tool is not found, ask the user where it is, or offer to install it:
 
@@ -27,11 +27,13 @@ If a tool is not found, ask the user where it is, or offer to install it:
 
 Install nothing without the user's consent.
 
-## RAM dumps (optional)
+## RAM dumps
+
+Import RAM dumps: Ghidra needs the RAM contents to analyze the firmware correctly.
+Ask the user for existing dumps; without them, take dumps from the emulator, or from the phone if the user prefers.
 
 Use dumps of the same firmware as the fullflash, named `NAME_START_SIZE.bin` or `NAME_START_END.bin` in hex, for example `EL71v45_RAM_A8000000_01000000.bin`.
 sie-tool names (`EL71v45-RAM-A8000000_01000000.bin`) work as they are.
-Take the dumps from the phone or from the emulator.
 
 Phone, with sie-tool and the phone connected by cable:
 
@@ -66,10 +68,11 @@ Wait about 60 s for the boot, then dump the memory and stop the emulator:
 
 Use it when Ghidra MCP tools are available:
 
-1. `list_scripts` with filter `SetupSiemensFullflash`. If the script is missing, ask the user to add the ghidra_scripts directory in Script Manager → Manage Script Directories.
-2. `import_file`: `file_path` = the fullflash, `loader` = `Raw Binary`, `language` = `ARM:LE:32:v5t`, `compiler` = `default`, `base_address` = `0xA0000000`, `open` = `false`.
-3. `open_program` with `mode` = `tool`, so the user sees the program in a CodeBrowser; do not work on it in the background.
+1. `import_file`: `file_path` = the fullflash, `loader` = `Raw Binary`, `language` = `ARM:LE:32:v5t`, `compiler` = `default`, `base_address` = `0xA0000000`, `open` = `false`.
+2. `open_program` with `mode` = `tool`, so the user sees the program in a CodeBrowser; do not work on it in the background.
+3. `list_scripts` with filter `SetupSiemensFullflash`. If the script is missing, ask the user to add the ghidra_scripts directory in Script Manager → Manage Script Directories.
 4. `run_script`: `name` = `SetupSiemensFullflash.java`, `program` = the imported program, `timeout_seconds` = `3600`, `args` with at least one argument, for example `["dumps=DUMP_DIR"]` or `["analyze=true"]`. Without arguments the script opens dialogs and waits for the user.
+   The MCP call may time out while the script keeps running; poll `get_analysis_status` until the analysis is no longer running.
 5. `save_program`.
 
 ### Headless
